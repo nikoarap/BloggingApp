@@ -1,4 +1,4 @@
-package com.nikoarap.bloggingapp.viewmodel;
+package com.nikoarap.bloggingapp.viewmodels;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
@@ -16,7 +16,7 @@ public class PostListViewModel extends ViewModel {
         dataRepository = DataRepository.getInstance();
     }
 
-    public LiveData<List<Post>> getPosts(){
+    public LiveData<List<Post>> getPosts() {
         return dataRepository.getPosts();
     }
 

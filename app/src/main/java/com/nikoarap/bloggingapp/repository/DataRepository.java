@@ -2,6 +2,7 @@ package com.nikoarap.bloggingapp.repository;
 
 import android.arch.lifecycle.LiveData;
 
+import com.nikoarap.bloggingapp.models.Author;
 import com.nikoarap.bloggingapp.models.Post;
 import com.nikoarap.bloggingapp.api.APIClient;
 
@@ -24,14 +25,23 @@ public class DataRepository {
         apiClient = APIClient.getInstance();
     }
 
+    public LiveData<List<Author>> getAuthors(){
+        return apiClient.getAuthors();
+    }
 
     public LiveData<List<Post>> getPosts(){
         return apiClient.getPosts();
     }
 
+
+    public void authorsAPI(){
+        apiClient.authorsAPI();
+    }
+
     public void postsAPI(String query, String authorID){
         apiClient.postsAPI(query, authorID);
     }
+
 
 
 }

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10sp"
+    android:id="@+id/relayoutInfo">
+
+    <ImageButton
+        android:id="@+id/backbuttonInfo"
+        android:layout_width="27sp"
+        android:layout_height="27sp"
+        android:background="@drawable/baseline_arrow_back_black_36dp"/>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/imageInfo"
+        android:layout_below="@+id/backbutton"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/ic_launcher_round"
+        android:layout_marginLeft="20sp"
+        android:layout_marginTop="25dp"
+        />
+
+    <TextView
+        android:id="@+id/nameInfoTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="TextView"
+        android:textColor="#000"
+        android:layout_marginTop="5sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/imageInfo"/>
+
+    <TextView
+        android:id="@+id/usernameInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:text="Username:"
+        android:textColor="#000"
+        android:layout_marginTop="25sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/nameInfoTxt"/>
+
+    <TextView
+        android:id="@+id/usernameInfoTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:text="Username"
+        android:textColor="#000"
+        android:layout_marginTop="5sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/usernameInfo"/>
+
+    <TextView
+        android:id="@+id/emailInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:text="E-mail:"
+        android:textColor="#000"
+        android:layout_marginTop="15sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/usernameInfoTxt"/>
+
+    <TextView
+        android:id="@+id/emailInfoTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:text="E-mail"
+        android:textColor="#000"
+        android:layout_marginTop="5sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/emailInfo"/>
+
+    <TextView
+        android:id="@+id/addressInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:text="Address:"
+        android:textColor="#000"
+        android:layout_marginTop="15sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/emailInfoTxt"/>
+
+    <TextView
+        android:id="@+id/addressInfoTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:text="Address"
+        android:textColor="#000"
+        android:layout_marginTop="5sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/addressInfo"/>
+
+</RelativeLayout>

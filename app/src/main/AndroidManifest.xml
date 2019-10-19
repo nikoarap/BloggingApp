@@ -23,9 +23,18 @@
 
         <activity
             android:launchMode="singleTop"
-            android:name="com.nikoarap.bloggingapp.ui.AuthorDetailsActivity">
+            android:name="com.nikoarap.bloggingapp.ui.AuthorPostsActivity">
             <intent-filter>
-                <action android:name="com.nikoarap.bloggingapp.AUTHOR_DETAILS" />
+                <action android:name="com.nikoarap.bloggingapp.AUTHOR_POSTS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:launchMode="singleTop"
+            android:name="com.nikoarap.bloggingapp.ui.AuthorInfoActivity">
+            <intent-filter>
+                <action android:name="com.nikoarap.bloggingapp.AUTHOR_INFO" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

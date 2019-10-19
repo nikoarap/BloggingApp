@@ -1,9 +1,11 @@
 package com.nikoarap.bloggingapp.ui;
 
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,65 +13,62 @@ import android.util.Log;
 
 import com.nikoarap.bloggingapp.R;
 import com.nikoarap.bloggingapp.adapters.AuthorsAdapter;
-import com.nikoarap.bloggingapp.api.FetchJSONDataAPI;
-import com.nikoarap.bloggingapp.api.RetrofitRequestClass;
 import com.nikoarap.bloggingapp.models.Author;
+import com.nikoarap.bloggingapp.viewmodels.AuthorListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class AuthorListActivity extends AppCompatActivity implements AuthorsAdapter.OnAuthorListener {
 
-    public static final String TAG = "ERROR FETCHING DATA";
+    public static final String TAG = "AuthorListActivity";
+
+    private AuthorListViewModel authorListViewModel;
+
 
 
     private RecyclerView recView;
     private AuthorsAdapter recAdapter;
-    public ArrayList<Author> authorList;
+    public ArrayList<Author> authorList = new ArrayList<>();
     private ArrayList<String> authorImages = new ArrayList<>();
-    private ActionBar AB;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.authors_list_layout);
-        recView = findViewById(R.id.recyclerView);
+        recView = findViewById(R.id.authorsRecyclerView);
 
-        getRetrofitRequest();
 
-        //showing the action bar at the top of the screen
-        AB = getSupportActionBar();
-        AB.setTitle("Authors");
-        AB.setDisplayShowTitleEnabled(true);
+        authorListViewModel = ViewModelProviders.of(this).get(AuthorListViewModel.class);
 
+
+        RetrofitRequest();
+        subscribeObservers();
     }
 
-
-
-    private void getRetrofitRequest(){
-        FetchJSONDataAPI fetchJSONDataAPI = RetrofitRequestClass.fetchApi(); // json request of the API interface through retrofit
-        Call<List<Author>> call = fetchJSONDataAPI.getAuthorsApi(); // get all authors request
-        call.enqueue(new Callback<List<Author>>() {
+    //method to create an observer
+    private void subscribeObservers(){
+        authorListViewModel.getAuthors().observe(this, new Observer<List<Author>>() {
             @Override
-            public void onResponse(Call<List<Author>> call, Response<List<Author>> response) {
-
-                //populating the recyclerView with the data fetched from the API
-                populateRecyclerView(response.body());
-                if (response.body() != null) {
-                    authorList = new ArrayList<>(response.body());
+            public void onChanged(@Nullable List<Author> authors) {
+                if (authors != null){
+                    for(Author author: authors){
+                        Log.d(TAG, "onChanged: " + author);
+                        populateRecyclerView(authors);
+                        authorList.addAll(authors);
+                    }
                 }
             }
-
-            @Override
-            public void onFailure(Call<List<Author>> call, Throwable t) {
-                Log.d(TAG,"error because: "+t.getMessage());
-            }
         });
+    }
+
+    public void authorsAPI(){
+        authorListViewModel.authorsAPI();
+    }
+
+    private void RetrofitRequest(){
+        authorsAPI();
     }
 
 
@@ -84,10 +83,14 @@ public class AuthorListActivity extends AppCompatActivity implements AuthorsAdap
 
     @Override
     public void onAuthorClick(int position) {
-        Intent i = new Intent(this, AuthorDetailsActivity.class);
+        Intent i = new Intent(this, AuthorPostsActivity.class);
         i.putExtra("authorId", authorList.get(position).getId());
         i.putExtra("authorName", authorList.get(position).getName());
         i.putExtra("authorAvatar", authorList.get(position).getAvatarUrl());
+        i.putExtra("authorUserName", authorList.get(position).getUserName());
+        i.putExtra("authorEmail", authorList.get(position).getEmail());
+        i.putExtra("authorAddressLat", authorList.get(position).getAddress().getLatitude());
+        i.putExtra("authorAddressLng", authorList.get(position).getAddress().getLongitude());
         startActivity(i);
     }
 }

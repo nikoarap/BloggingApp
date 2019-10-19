@@ -1,63 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10sp"
     android:background="#fff"
+    android:padding="10sp"
     android:id="@+id/parent_layout_2">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Date"
-        android:textStyle="bold"
-        android:id="@+id/post_date"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textColor="@color/Gray"
-        android:layout_marginTop="1sp"
-        android:layout_marginLeft="10sp"
-        android:layout_marginStart="10sp"
-        android:textSize="15sp"/>
+        android:id="@+id/card_view"
+        app:cardElevation="100dp">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Title"
-    android:textStyle="bold"
-    android:id="@+id/post_title"
-    android:textColor="#000"
-    android:layout_centerHorizontal="true"
-    android:layout_alignParentTop="true"
-    android:layout_marginTop="20sp"
-    android:textSize="17sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:textStyle="bold"
+                android:id="@+id/post_date"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/Gray"
+                android:layout_marginTop="1sp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginStart="10sp"
+                android:textSize="15sp"/>
 
-    <ImageView
-        android:id="@+id/post_image"
-        android:src="@drawable/ic_launcher_background"
-        android:layout_width="300sp"
-        android:layout_height="280sp"
-        android:layout_marginTop="20sp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/post_title"
-        />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textStyle="bold"
+                android:id="@+id/post_title"
+                android:textColor="#000"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/post_date"
+                android:layout_marginTop="5sp"
+                android:textSize="18sp"/>
 
+            <ImageView
+                android:id="@+id/post_image"
+                android:src="@drawable/ic_launcher_background"
+                android:layout_width="300sp"
+                android:layout_height="280sp"
+                android:layout_marginTop="10sp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/post_title" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/post_image"
+                android:text="Body"
+                android:id="@+id/post_body"
+                android:textColor="#616161"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10sp"
+                android:layout_marginStart="10sp"
+                android:layout_marginTop="2sp"
+                android:textSize="15sp"
+                />
 
-    <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Body"
-    android:id="@+id/post_body"
-    android:textColor="#000"
-    android:layout_centerVertical="true"
-    android:layout_marginLeft="10sp"
-    android:layout_marginStart="10sp"
-    android:layout_marginTop="20sp"
-    android:textSize="17sp"
-        android:layout_below="@+id/post_image"/>
+        </RelativeLayout>
 
-
+    </android.support.v7.widget.CardView>
 
 </RelativeLayout>
