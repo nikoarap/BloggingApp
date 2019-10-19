@@ -1,7 +1,9 @@
 package com.nikoarap.bloggingapp.adapters;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,18 +15,20 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.nikoarap.bloggingapp.R;
-import com.nikoarap.bloggingapp.models.Author;
 import com.nikoarap.bloggingapp.models.Post;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHolder> {
 
     private List<Post> postsList;
     public ArrayList<String> postImages;
+
+    public Date date;
 
 
     private Context context;
@@ -36,9 +40,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         this.postsList = postsList;
         this.postImages = postImages;
         this.onPostListener = onPostListener;
-
     }
 
+    private static String removeFromTheEnd(String str, int x) {
+        return str.substring(0, str.length() - x);
+    }
 
     @NonNull
     @Override
@@ -47,17 +53,28 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         return new PostsAdapter.PostsViewHolder(view,onPostListener);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull PostsAdapter.PostsViewHolder viewHolder, int position) {
-        viewHolder.postDate.setText(postsList.get(position).getDate());
+
+        //formatting the date from ISO8601 to normal
+        String dateTime = postsList.get(position).getDate();
+        String date_time = removeFromTheEnd(dateTime,5);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        try {
+            date = dateFormat.parse(date_time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String dateTime2 = removeFromTheEnd(date.toString(),14);
+
+        viewHolder.postDate.setText(dateTime2);
         viewHolder.postTitle.setText(postsList.get(position).getTitle());
         viewHolder.postBody.setText(postsList.get(position).getBody());
         Glide.with(context)
                 .asBitmap()
                 .load(postsList.get(position).getImageUrl())
                 .into(viewHolder.postImage);
-
-
     }
 
     @Override

@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.nikoarap.bloggingapp.R;
 import com.nikoarap.bloggingapp.adapters.PostsAdapter;
+import com.nikoarap.bloggingapp.models.Author;
 import com.nikoarap.bloggingapp.models.Post;
 import com.nikoarap.bloggingapp.utils.VerticalSpacingDecorator;
 import com.nikoarap.bloggingapp.viewmodels.PostListViewModel;
@@ -37,7 +38,6 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
 
     private PostListViewModel postListViewModel;
 
-
     public TextView authorTv;
     private ActionBar AB;
     public CircleImageView authorImg;
@@ -45,7 +45,7 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
     public ImageButton infoButton;
     private String authorId;
     private String authorName;
-    private String authorAvatar;
+    private String authorAvatarUrl;
     private String authorUserName;
     private String authorEmail;
     private String authorAddressLat;
@@ -53,6 +53,7 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
     private RecyclerView recView;
     private PostsAdapter postsAdapter;
     private ArrayList<String> postImages = new ArrayList<>();
+    public ArrayList<Post> postsList = new ArrayList<>();
 
 
     @Override
@@ -67,26 +68,24 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
         Intent i = getIntent();
         authorId = i.getStringExtra("authorId");
         authorName = i.getStringExtra("authorName");
-        authorAvatar = i.getStringExtra("authorAvatar");
+        authorAvatarUrl = i.getStringExtra("authorAvatarUrl");
         authorUserName = i.getStringExtra("authorUserName");
         authorEmail = i.getStringExtra("authorEmail");
         authorAddressLat = i.getStringExtra("authorAddressLat");
         authorAddressLng = i.getStringExtra("authorAddressLng");
-
 
         authorTv = (TextView) findViewById(R.id.name);
         authorImg = (CircleImageView) findViewById(R.id.image);
         backButton = (ImageButton) findViewById(R.id.backbutton);
         infoButton = (ImageButton) findViewById(R.id.infobutton);
 
-
-        postListViewModel = ViewModelProviders.of(this).get(PostListViewModel.class);
-
         authorTv.setText(authorName+"'s Posts");
         Glide.with(this)
                 .asBitmap()
-                .load(authorAvatar)
+                .load(authorAvatarUrl)
                 .into(authorImg);
+
+        postListViewModel = ViewModelProviders.of(this).get(PostListViewModel.class);
 
         RetrofitRequest();
         subscribeObservers();
@@ -116,6 +115,7 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
                     for(Post post: posts){
                         Log.d(TAG, "onChanged: " + post.getAuthorId());
                         populateRecyclerView(posts);
+                        postsList.addAll(posts);
                     }
                 }
             }
@@ -129,7 +129,6 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
     private void RetrofitRequest(){
         postsAPI("?sdas",authorId);
     }
-
 
     //method to set the recycler view and populate it
     private void populateRecyclerView(List<Post> postList) {
@@ -149,8 +148,6 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
         inflater.inflate(R.menu.author_info_menu, popup.getMenu());
         popup.show();
 
-
-
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
@@ -159,7 +156,7 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
                     case R.id.info:
                         i.putExtra("authorId", authorId);
                         i.putExtra("authorName", authorName);
-                        i.putExtra("authorAvatar", authorAvatar);
+                        i.putExtra("authorAvatarUrl", authorAvatarUrl);
                         i.putExtra("authorUserName", authorUserName);
                         i.putExtra("authorEmail", authorEmail);
                         i.putExtra("authorAddressLat", authorAddressLat);
@@ -178,6 +175,14 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
 
     @Override
     public void onPostClick(int position) {
-
+        Intent i = new Intent(this, PostCommentsActivity.class);
+        i.putExtra("postId", postsList.get(position).getId());
+        i.putExtra("postTitle", postsList.get(position).getTitle());
+        i.putExtra("postImageUrl", postsList.get(position).getImageUrl());
+        i.putExtra("postDate", postsList.get(position).getDate());
+        i.putExtra("postBody", postsList.get(position).getBody());
+        i.putExtra("authorName", authorName);
+        i.putExtra("authorAvatarUrl", authorAvatarUrl);
+        startActivity(i);
     }
 }

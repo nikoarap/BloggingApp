@@ -86,7 +86,7 @@ public class AuthorListActivity extends AppCompatActivity implements AuthorsAdap
         Intent i = new Intent(this, AuthorPostsActivity.class);
         i.putExtra("authorId", authorList.get(position).getId());
         i.putExtra("authorName", authorList.get(position).getName());
-        i.putExtra("authorAvatar", authorList.get(position).getAvatarUrl());
+        i.putExtra("authorAvatarUrl", authorList.get(position).getAvatarUrl());
         i.putExtra("authorUserName", authorList.get(position).getUserName());
         i.putExtra("authorEmail", authorList.get(position).getEmail());
         i.putExtra("authorAddressLat", authorList.get(position).getAddress().getLatitude());

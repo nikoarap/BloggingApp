@@ -3,6 +3,7 @@ package com.nikoarap.bloggingapp.api;
 
 
 import com.nikoarap.bloggingapp.models.Author;
+import com.nikoarap.bloggingapp.models.Comment;
 import com.nikoarap.bloggingapp.models.Post;
 
 import java.util.List;
@@ -24,6 +25,13 @@ public interface FetchJSONDataAPI {
     Call<List<Post>> getPostsApi(
             @Query("?") String query,
             @Query("authorId") String author_id
+    );
+
+    //get comments by postId
+    @GET("/comments")
+    Call<List<Comment>> getCommentsApi(
+            @Query("?") String query,
+            @Query("postId") String post_id
     );
 
 }

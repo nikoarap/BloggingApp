@@ -29,7 +29,7 @@ public class AuthorInfoActivity extends AppCompatActivity {
     public ImageButton backButton;
     private String authorId;
     private String authorName;
-    private String authorAvatar;
+    private String authorAvatarUrl;
     private String authorUserName;
     private String authorEmail;
     private String authorAddressLat;
@@ -50,7 +50,7 @@ public class AuthorInfoActivity extends AppCompatActivity {
         Intent i = getIntent();
         authorId = i.getStringExtra("authorId");
         authorName = i.getStringExtra("authorName");
-        authorAvatar = i.getStringExtra("authorAvatar");
+        authorAvatarUrl = i.getStringExtra("authorAvatarUrl");
         authorUserName = i.getStringExtra("authorUserName");
         authorEmail = i.getStringExtra("authorEmail");
         authorAddressLat = i.getStringExtra("authorAddressLat");
@@ -93,7 +93,7 @@ public class AuthorInfoActivity extends AppCompatActivity {
 
         Glide.with(this)
                 .asBitmap()
-                .load(authorAvatar)
+                .load(authorAvatarUrl)
                 .into(authorImg);
 
         backButton.setOnClickListener(new View.OnClickListener() {

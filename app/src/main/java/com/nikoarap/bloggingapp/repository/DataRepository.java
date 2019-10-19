@@ -3,6 +3,7 @@ package com.nikoarap.bloggingapp.repository;
 import android.arch.lifecycle.LiveData;
 
 import com.nikoarap.bloggingapp.models.Author;
+import com.nikoarap.bloggingapp.models.Comment;
 import com.nikoarap.bloggingapp.models.Post;
 import com.nikoarap.bloggingapp.api.APIClient;
 
@@ -33,6 +34,10 @@ public class DataRepository {
         return apiClient.getPosts();
     }
 
+    public LiveData<List<Comment>> getComments(){
+        return apiClient.getComments();
+    }
+
 
     public void authorsAPI(){
         apiClient.authorsAPI();
@@ -40,6 +45,10 @@ public class DataRepository {
 
     public void postsAPI(String query, String authorID){
         apiClient.postsAPI(query, authorID);
+    }
+
+    public void commentsAPI(String query, String postID){
+        apiClient.commentsAPI(query, postID);
     }
 
 

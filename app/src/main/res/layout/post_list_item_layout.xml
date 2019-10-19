@@ -19,11 +19,11 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/post_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Date"
                 android:textStyle="bold"
-                android:id="@+id/post_date"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:textColor="@color/Gray"
@@ -33,11 +33,11 @@
                 android:textSize="15sp"/>
 
             <TextView
+                android:id="@+id/post_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Title"
                 android:textStyle="bold"
-                android:id="@+id/post_title"
                 android:textColor="#000"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/post_date"
@@ -54,11 +54,11 @@
                 android:layout_below="@+id/post_title" />
 
             <TextView
+                android:id="@+id/post_body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/post_image"
                 android:text="Body"
-                android:id="@+id/post_body"
                 android:textColor="#616161"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10sp"

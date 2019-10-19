@@ -39,6 +39,15 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:launchMode="singleTop"
+            android:name="com.nikoarap.bloggingapp.ui.PostCommentsActivity">
+            <intent-filter>
+                <action android:name="com.nikoarap.bloggingapp.POST_COMMENTS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>
