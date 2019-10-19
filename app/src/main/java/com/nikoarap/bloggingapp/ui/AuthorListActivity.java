@@ -1,6 +1,7 @@
 package com.nikoarap.bloggingapp.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,9 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.nikoarap.bloggingapp.R;
-import com.nikoarap.bloggingapp.adapters.RecyclerAdapter;
-import com.nikoarap.bloggingapp.data.AuthorsAPI;
-import com.nikoarap.bloggingapp.data.RetrofitRequestClass;
+import com.nikoarap.bloggingapp.adapters.AuthorsAdapter;
+import com.nikoarap.bloggingapp.api.FetchJSONDataAPI;
+import com.nikoarap.bloggingapp.api.RetrofitRequestClass;
 import com.nikoarap.bloggingapp.models.Author;
 
 import java.util.ArrayList;
@@ -21,20 +22,22 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements RecyclerAdapter.OnAuthorListener {
+public class AuthorListActivity extends AppCompatActivity implements AuthorsAdapter.OnAuthorListener {
 
     public static final String TAG = "ERROR FETCHING DATA";
 
+
     private RecyclerView recView;
-    private RecyclerAdapter recAdapter;
+    private AuthorsAdapter recAdapter;
     public ArrayList<Author> authorList;
     private ArrayList<String> authorImages = new ArrayList<>();
-    ActionBar AB;
+    private ActionBar AB;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.authors_list_layout);
         recView = findViewById(R.id.recyclerView);
 
         getRetrofitRequest();
@@ -43,18 +46,20 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.O
         AB = getSupportActionBar();
         AB.setTitle("Authors");
         AB.setDisplayShowTitleEnabled(true);
+
     }
 
-    private void getRetrofitRequest(){
 
-        AuthorsAPI apiService = RetrofitRequestClass.getRetrofitInstance().create(AuthorsAPI.class); // Get instance of Retrofit
-        Call<List<Author>> call = apiService.getAuthorsApi(); // get all authors request
+
+    private void getRetrofitRequest(){
+        FetchJSONDataAPI fetchJSONDataAPI = RetrofitRequestClass.fetchApi(); // json request of the API interface through retrofit
+        Call<List<Author>> call = fetchJSONDataAPI.getAuthorsApi(); // get all authors request
         call.enqueue(new Callback<List<Author>>() {
             @Override
             public void onResponse(Call<List<Author>> call, Response<List<Author>> response) {
 
                 //populating the recyclerView with the data fetched from the API
-                generateAuthorList(response.body());
+                populateRecyclerView(response.body());
                 if (response.body() != null) {
                     authorList = new ArrayList<>(response.body());
                 }
@@ -68,10 +73,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.O
     }
 
 
-    private void generateAuthorList(List<Author> authorList) {
+    private void populateRecyclerView(List<Author> authorList) {
         RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recView.setLayoutManager(linearLayoutManager);
-        recAdapter = new RecyclerAdapter(this, authorList, authorImages,this);
+        recAdapter = new AuthorsAdapter(this, authorList, authorImages,this);
         recView.setAdapter(recAdapter);
         recAdapter.notifyDataSetChanged();
         recView.scheduleLayoutAnimation();
@@ -79,5 +84,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.O
 
     @Override
     public void onAuthorClick(int position) {
+        Intent i = new Intent(this, AuthorDetailsActivity.class);
+        i.putExtra("authorId", authorList.get(position).getId());
+        i.putExtra("authorName", authorList.get(position).getName());
+        i.putExtra("authorAvatar", authorList.get(position).getAvatarUrl());
+        startActivity(i);
     }
 }

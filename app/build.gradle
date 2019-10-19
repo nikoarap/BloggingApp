@@ -43,7 +43,9 @@ dependencies {
     // Retrofit gson converter
     implementation "com.squareup.retrofit2:converter-gson:2.6.2"
 
-    implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+    // ViewModel and LiveData
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+
 
 
 }

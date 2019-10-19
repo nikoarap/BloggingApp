@@ -2,15 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="15dp"
+    android:padding="15sp"
     android:background="#fff"
     android:id="@+id/parent_layout">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="60sp"
+        android:layout_height="60sp"
         android:id="@+id/author_image"
-        android:paddingBottom="5dp"
+        android:paddingBottom="5sp"
         android:src="@mipmap/ic_launcher_round"/>
 
     <TextView
@@ -22,16 +22,15 @@
         android:layout_toRightOf="@+id/author_image"
         android:textColor="#000"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="30sp"
         android:textSize="17sp"/>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1sp"
         android:background="@color/LightSlateGray"
-        android:layout_marginLeft="100dp"
+        android:layout_marginLeft="100sp"
         android:layout_alignBottom="@id/author_image"
-
         />
 
 

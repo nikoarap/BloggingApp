@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.nikoarap.bloggingapp.R;
@@ -21,35 +20,36 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.AuthorsViewHolder> {
 
     private List<Author> authorsList;
     public ArrayList<String> authorImages;
 
-
     private Context context;
     private OnAuthorListener onAuthorListener;
-    private static final String TAG = "RecyclerAdapter";
+    private static final String TAG = "AuthorsAdapter";
 
-    public RecyclerAdapter(Context cont, List<Author> authorList, ArrayList<String> authorImages, OnAuthorListener authorListener) {
+    public AuthorsAdapter(Context cont, List<Author> authorList, ArrayList<String> authorImages, OnAuthorListener authorListener) {
         context = cont;
         this.authorsList = authorList;
         this.authorImages = authorImages;
         this.onAuthorListener = authorListener;
+
+
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public AuthorsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.author_list_item_layout, viewGroup, false);
-        return new ViewHolder(view,onAuthorListener);
+        return new AuthorsViewHolder(view,onAuthorListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        viewHolder.authorName.setText(authorsList.get(position).getName());
+    public void onBindViewHolder(@NonNull AuthorsViewHolder viewHolder, int position) {
+        viewHolder.authorName.setText(authorsList.get(position).getName()); //setting the authorNames in the listItems of the recyclerView
 
-        //setting the avatars on the listItems
+        //setting the avatars in the listItems of the recyclerView
         Glide.with(context)
                 .asBitmap()
                 .load(authorsList.get(position).getAvatarUrl())
@@ -64,7 +64,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return authorsList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    //defines the UI and functionality of the recyclerView and its' listItems
+    public class AuthorsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView authorName;
         private CircleImageView authorImage;
@@ -72,7 +73,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         OnAuthorListener onAuthorListener;
 
 
-        public ViewHolder(View v, OnAuthorListener authorListener) {
+        public AuthorsViewHolder(View v, OnAuthorListener authorListener) {
             super(v);
             authorName = v.findViewById(R.id.author_name);
             authorImage = v.findViewById(R.id.author_image);
@@ -84,9 +85,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         @Override
         public void onClick(View v) {
             Log.d(TAG, "Item number: " + getAdapterPosition());
-            onAuthorListener.onAuthorClick(getAdapterPosition());
-            Toast.makeText(context,authorName.getText().toString(),Toast.LENGTH_SHORT).show();
-
+            onAuthorListener.onAuthorClick(getAdapterPosition()); //click listener gets the position of each individual listItem
         }
     }
 

@@ -11,13 +11,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.nikoarap.bloggingapp.ui.MainActivity">
+
+        <activity
+            android:launchMode="singleTop"
+            android:name="com.nikoarap.bloggingapp.ui.AuthorListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:launchMode="singleTop"
+            android:name="com.nikoarap.bloggingapp.ui.AuthorDetailsActivity">
+            <intent-filter>
+                <action android:name="com.nikoarap.bloggingapp.AUTHOR_DETAILS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>
