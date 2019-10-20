@@ -28,13 +28,10 @@ public class AuthorListActivity extends AppCompatActivity implements AuthorsAdap
 
     private AuthorListViewModel authorListViewModel;
 
-
-
     private RecyclerView recView;
     private AuthorsAdapter recAdapter;
     public ArrayList<Author> authorList = new ArrayList<>();
     private ArrayList<String> authorImages = new ArrayList<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +39,11 @@ public class AuthorListActivity extends AppCompatActivity implements AuthorsAdap
         setContentView(R.layout.authors_list_layout);
         recView = findViewById(R.id.authorsRecyclerView);
 
-
         authorListViewModel = ViewModelProviders.of(this).get(AuthorListViewModel.class);
-
 
         RetrofitRequest();
         subscribeObservers();
+
     }
 
     //method to create an observer

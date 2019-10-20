@@ -1,21 +1,37 @@
 package com.nikoarap.bloggingapp.models;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
+@Entity(tableName = "posts")
 public class Post implements Parcelable {
 
+    @ColumnInfo(name = "date")
     private String date;
 
+    @ColumnInfo(name = "imageUrl")
     private String imageUrl;
 
+    @NonNull
+    @PrimaryKey
+    @ColumnInfo(name = "id")
     private String id;
 
+    @ColumnInfo(name = "title")
     private String title;
 
+    @ColumnInfo(name = "body")
     private String body;
 
+    @ColumnInfo(name = "authorId")
     private String authorId;
+
+
 
     protected Post(Parcel in) {
         date = in.readString();
@@ -37,6 +53,20 @@ public class Post implements Parcelable {
             return new Post[size];
         }
     };
+
+    public Post(String date, String imageUrl, @NonNull String id, String title, String body, String authorId) {
+        this.date = date;
+        this.imageUrl = imageUrl;
+        this.id = id;
+        this.title = title;
+        this.body = body;
+        this.authorId = authorId;
+    }
+
+    @Ignore
+    public Post(){
+
+    }
 
     public String getDate ()
     {

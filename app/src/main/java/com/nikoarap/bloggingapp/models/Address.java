@@ -26,6 +26,11 @@ public class Address implements Parcelable{
         }
     };
 
+    public Address(String latitude, String longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public String getLatitude ()
     {
         return latitude;
