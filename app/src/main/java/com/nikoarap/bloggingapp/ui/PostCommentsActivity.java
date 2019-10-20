@@ -21,6 +21,7 @@ import com.nikoarap.bloggingapp.adapters.CommentsAdapter;
 import com.nikoarap.bloggingapp.adapters.PostsAdapter;
 import com.nikoarap.bloggingapp.models.Comment;
 import com.nikoarap.bloggingapp.models.Post;
+import com.nikoarap.bloggingapp.utils.JsonDateFormat;
 import com.nikoarap.bloggingapp.utils.VerticalSpacingDecorator;
 import com.nikoarap.bloggingapp.viewmodels.CommentListViewModel;
 import com.nikoarap.bloggingapp.viewmodels.PostListViewModel;
@@ -82,8 +83,11 @@ public class PostCommentsActivity extends AppCompatActivity implements CommentsA
         backButton = (ImageButton) findViewById(R.id.backbutton2);
         authorImg = (CircleImageView) findViewById(R.id.image);
 
+        //formatting the date from ISO8601 to normal
+        JsonDateFormat jsonDateFormat = new JsonDateFormat();
+        String date = jsonDateFormat.convertJsonDateToNormal(postDate);
 
-        post_dateTv.setText(postDate);
+        post_dateTv.setText(date);
         post_titleTv.setText(postTitle);
         post_bodyTv.setText(postBody);
         author_nameTv.setText(authorName);
@@ -127,12 +131,12 @@ public class PostCommentsActivity extends AppCompatActivity implements CommentsA
         });
     }
 
-    public void commentsAPI(String query, String postID){
-        commentListViewModel.commentsApi(query, postID);
+    public void commentsAPI(String query, String sort, String and, String postID){
+        commentListViewModel.commentsApi(query, sort, and, postID);
     }
 
     private void RetrofitRequest(){
-        commentsAPI("?sdas",postId);
+        commentsAPI("?","date","&",postId);
     }
 
     //method to set the recycler view and populate it
@@ -140,8 +144,6 @@ public class PostCommentsActivity extends AppCompatActivity implements CommentsA
         RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recView.setLayoutManager(linearLayoutManager);
         commentsAdapter = new CommentsAdapter(this, commentList, commentImages, this);
-        VerticalSpacingDecorator itemDecorator = new VerticalSpacingDecorator(0);
-        recView.addItemDecoration(itemDecorator);
         recView.setAdapter(commentsAdapter);
         commentsAdapter.notifyDataSetChanged();
         recView.scheduleLayoutAnimation();

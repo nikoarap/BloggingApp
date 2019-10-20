@@ -21,8 +21,8 @@ public class CommentListViewModel extends ViewModel {
         return dataRepository.getComments();
     }
 
-    public void commentsApi(String query, String postID){
-        dataRepository.commentsAPI(query, postID);
+    public void commentsApi(String query, String sort, String and, String postID){
+        dataRepository.commentsAPI(query, sort, and, postID);
     }
 
 }

@@ -47,8 +47,8 @@ public class DataRepository {
         apiClient.postsAPI(query, authorID);
     }
 
-    public void commentsAPI(String query, String postID){
-        apiClient.commentsAPI(query, postID);
+    public void commentsAPI(String query, String sort, String and, String postID){
+        apiClient.commentsAPI(query, sort, and, postID);
     }
 
 

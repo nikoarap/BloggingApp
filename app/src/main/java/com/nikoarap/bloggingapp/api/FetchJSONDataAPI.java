@@ -31,6 +31,8 @@ public interface FetchJSONDataAPI {
     @GET("/comments")
     Call<List<Comment>> getCommentsApi(
             @Query("?") String query,
+            @Query("_sort") String sort,
+            @Query("&") String and,
             @Query("postId") String post_id
     );
 

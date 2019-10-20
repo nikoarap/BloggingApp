@@ -127,7 +127,7 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
     }
 
     private void RetrofitRequest(){
-        postsAPI("?sdas",authorId);
+        postsAPI("?",authorId);
     }
 
     //method to set the recycler view and populate it
@@ -135,7 +135,7 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
         RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recView.setLayoutManager(linearLayoutManager);
         postsAdapter = new PostsAdapter(this, postList, postImages, this);
-        VerticalSpacingDecorator itemDecorator = new VerticalSpacingDecorator(2);
+        VerticalSpacingDecorator itemDecorator = new VerticalSpacingDecorator(1);
         recView.addItemDecoration(itemDecorator);
         recView.setAdapter(postsAdapter);
         postsAdapter.notifyDataSetChanged();

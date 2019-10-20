@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.util.Log;
 import com.nikoarap.bloggingapp.R;
 import com.nikoarap.bloggingapp.adapters.AuthorsAdapter;
 import com.nikoarap.bloggingapp.models.Author;
+import com.nikoarap.bloggingapp.utils.VerticalSpacingDecorator;
 import com.nikoarap.bloggingapp.viewmodels.AuthorListViewModel;
 
 import java.util.ArrayList;

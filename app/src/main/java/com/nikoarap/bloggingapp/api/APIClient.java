@@ -100,11 +100,11 @@ public class APIClient {
     }
 
     //server request for comments
-    public void commentsAPI(String query, String postID){
+    public void commentsAPI(String query, String sort, String and, String postID){
         if(retrieveCommentsRunnable != null){
             retrieveCommentsRunnable = null;
         }
-        retrieveCommentsRunnable = new RetrieveCommentsRunnable(query, postID);
+        retrieveCommentsRunnable = new RetrieveCommentsRunnable(query, sort, and, postID);
         final Future handler = AppExecutors.getInstance().getExec().submit(retrieveCommentsRunnable);
 
         //stop the request after 3 seconds
@@ -219,11 +219,15 @@ public class APIClient {
     private class RetrieveCommentsRunnable implements Runnable{
 
         private String query;
+        private String sort;
+        private String and;
         private String postID;
         boolean cancelRequest;
 
-        public RetrieveCommentsRunnable(String query, String postID) {
+        public RetrieveCommentsRunnable(String query, String sort, String and, String postID) {
             this.query = query;
+            this.sort = sort;
+            this.and = and;
             this.postID = postID;
             cancelRequest = false;
         }
@@ -231,7 +235,7 @@ public class APIClient {
         @Override
         public void run() { // actual request happen inside the background thread
             try {
-                Response response = getCommentsByPost(query, postID).execute();
+                Response response = getCommentsByPost(query, sort, and, postID).execute();
                 if(cancelRequest){ //check if the request is canceled from the user
                     return;
                 }
@@ -254,8 +258,8 @@ public class APIClient {
         }
 
         //the call to fetch the json data from the api
-        private Call<List<Comment>> getCommentsByPost(String query, String postID){
-            return RetrofitRequestClass.fetchApi().getCommentsApi(query, postID);
+        private Call<List<Comment>> getCommentsByPost(String query, String sort, String and, String postID){
+            return RetrofitRequestClass.fetchApi().getCommentsApi(query, sort, and, postID);
         }
 
         private void cancelRequest(){

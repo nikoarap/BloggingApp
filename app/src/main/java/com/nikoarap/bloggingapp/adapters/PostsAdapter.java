@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.nikoarap.bloggingapp.R;
 import com.nikoarap.bloggingapp.models.Post;
+import com.nikoarap.bloggingapp.utils.JsonDateFormat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,9 +29,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
     private List<Post> postsList;
     public ArrayList<String> postImages;
 
-    public Date date;
-
-
     private Context context;
     private PostsAdapter.OnPostListener onPostListener;
     private static final String TAG = "PostsAdapter";
@@ -42,10 +40,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         this.onPostListener = onPostListener;
     }
 
-    private static String removeFromTheEnd(String str, int x) {
-        return str.substring(0, str.length() - x);
-    }
-
     @NonNull
     @Override
     public PostsAdapter.PostsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -53,22 +47,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         return new PostsAdapter.PostsViewHolder(view,onPostListener);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull PostsAdapter.PostsViewHolder viewHolder, int position) {
 
         //formatting the date from ISO8601 to normal
-        String dateTime = postsList.get(position).getDate();
-        String date_time = removeFromTheEnd(dateTime,5);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        try {
-            date = dateFormat.parse(date_time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        String dateTime2 = removeFromTheEnd(date.toString(),14);
+        JsonDateFormat jsonDateFormat = new JsonDateFormat();
+        String date = jsonDateFormat.convertJsonDateToNormal(postsList.get(position).getDate());
 
-        viewHolder.postDate.setText(dateTime2);
+        viewHolder.postDate.setText(date);
         viewHolder.postTitle.setText(postsList.get(position).getTitle());
         viewHolder.postBody.setText(postsList.get(position).getBody());
         Glide.with(context)

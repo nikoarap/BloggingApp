@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.nikoarap.bloggingapp.R;
 import com.nikoarap.bloggingapp.models.Comment;
 import com.nikoarap.bloggingapp.models.Comment;
+import com.nikoarap.bloggingapp.utils.JsonDateFormat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,9 +30,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     private List<Comment> commentsList;
     public ArrayList<String> commentImages;
 
-    public Date date;
-
-
     private Context context;
     private CommentsAdapter.OnCommentListener onCommentListener;
     private static final String TAG = "CommentsAdapter";
@@ -43,10 +41,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         this.onCommentListener = onCommentListener;
     }
 
-    private static String removeFromTheEnd(String str, int x) {
-        return str.substring(0, str.length() - x);
-    }
-
     @NonNull
     @Override
     public CommentsAdapter.CommentsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -54,22 +48,14 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         return new CommentsAdapter.CommentsViewHolder(view,onCommentListener);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull CommentsAdapter.CommentsViewHolder viewHolder, int position) {
 
         //formatting the date from ISO8601 to normal
-        String dateTime = commentsList.get(position).getDate();
-        String date_time = removeFromTheEnd(dateTime,5);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        try {
-            date = dateFormat.parse(date_time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        String dateTime2 = removeFromTheEnd(date.toString(),14);
+        JsonDateFormat jsonDateFormat = new JsonDateFormat();
+        String date = jsonDateFormat.convertJsonDateToNormal(commentsList.get(position).getDate());
 
-        viewHolder.commentDate.setText(dateTime2);
+        viewHolder.commentDate.setText(date);
         viewHolder.commentUserName.setText(commentsList.get(position).getUserName());
         viewHolder.commentEmail.setText(commentsList.get(position).getEmail());
         viewHolder.commentBody.setText(commentsList.get(position).getBody());
@@ -94,7 +80,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         private ImageView commentImage;
         private RelativeLayout rlayout;
         CommentsAdapter.OnCommentListener onCommentListener;
-
 
         public CommentsViewHolder(View v, CommentsAdapter.OnCommentListener commentListener) {
             super(v);
