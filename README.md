@@ -4,6 +4,7 @@ Microblogging Application
 Android application for purposes of a microblogging platform. This project was implemented with the use of MVVM architecural pattern for optimal data flow, component control, reusability and Unit Testing.
 
 The following libraries were used:
+------
 
 -Android Lifecycle Extensions for the implementation of the ViewModels and LiveData
 
