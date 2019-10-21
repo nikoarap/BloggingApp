@@ -20,9 +20,10 @@ The following libraries were used:
 -CardViews for the purposes of displaying ListItems more elegantly
 
 -Android support Design for the use of custom Toolbars (collapsing toolbars)
- ------
+ 
  
  In the application File struture you can find:
+ ------
 
 -The POJO models which are the Entity objects (model folder)
 
@@ -42,7 +43,7 @@ The following libraries were used:
 
 
 
--
+
 
 
 
