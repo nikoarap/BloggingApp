@@ -33,7 +33,6 @@ public class SplashActivity extends AppCompatActivity {
                     startActivity(i);
                 }
                 catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 finally{
