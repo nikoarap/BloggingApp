@@ -32,7 +32,7 @@ The following libraries were used:
 
 - The AsyncTask classes that were used for inserting data into the DB 
 
--The Retrofit classes for performing the Queries and Fetches to the server
+- The Retrofit classes for performing the Queries and Fetches to the server
 
 - The Repository responsible for handling the requests to Retrofit and their corresponding responses, inserting the data to the DB and  then caching them, generally managing the data flow 
 
