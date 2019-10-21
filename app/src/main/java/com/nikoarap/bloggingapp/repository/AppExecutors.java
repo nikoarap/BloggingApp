@@ -1,13 +1,13 @@
-package com.nikoarap.bloggingapp.api;
+package com.nikoarap.bloggingapp.repository;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-public class AppExecutors {
+class AppExecutors {
 
     private static AppExecutors instance;
 
-    public static AppExecutors getInstance(){
+    static AppExecutors getInstance(){
         if(instance == null){
             instance = new AppExecutors();
         }
@@ -17,7 +17,7 @@ public class AppExecutors {
     // Executor service that schedules commands after a given delay
     private final ScheduledExecutorService execThreadsAfterDelay = Executors.newScheduledThreadPool(3);
 
-    public ScheduledExecutorService getExec(){
+    ScheduledExecutorService getExec(){
         return execThreadsAfterDelay;
     }
 

@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.nikoarap.bloggingapp.AsyncTasks.InsertCommentsAsyncTask;
 import com.nikoarap.bloggingapp.AsyncTasks.InsertPostsAsyncTask;
-import com.nikoarap.bloggingapp.api.AppExecutors;
 import com.nikoarap.bloggingapp.api.RetrofitRequestClass;
 import com.nikoarap.bloggingapp.db.AppDao;
 import com.nikoarap.bloggingapp.db.AppDatabase;
