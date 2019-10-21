@@ -38,7 +38,7 @@ The following libraries were used:
 
 -The UI (View) in which the Activites of the application reside, with methods of observing the LiveData and performing changes to the UI accordingly 
 
--The Utility classes: Converter of JsonDataFormat to normal, VerticalSpaceDecorator for spacing between ListItems in the RecyclerView, TypeConverter for converting the type of an Entity to be recognized by the room persistance  DB (the Address array object of the Model Authors in my case 
+- The Utility classes: Converter of JsonDataFormat to normal, VerticalSpaceDecorator for spacing between ListItems in the RecyclerView, TypeConverter for converting the type of an Entity to be recognized by the room persistance  DB (the Address array object of the Model Authors in my case)
 
 -The adapters for the RecyclerViews used by the Activities to display ListItems with data such as images 
 
