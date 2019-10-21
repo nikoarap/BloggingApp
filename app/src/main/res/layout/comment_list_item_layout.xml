@@ -29,37 +29,42 @@
                 android:id="@+id/comment_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Username"
+                android:text="@string/user_name"
                 android:textStyle="bold"
                 android:textColor="@color/Gray"
                 android:layout_marginTop="7sp"
                 android:layout_marginLeft="10sp"
                 android:layout_toRightOf="@id/comment_image"
-                android:textSize="13sp"/>
+                android:textSize="13sp"
+                android:layout_toEndOf="@id/comment_image"
+                android:layout_marginStart="10sp" />
 
             <TextView
                 android:id="@+id/comment_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date"
+                android:text="@string/date"
                 android:textStyle="bold"
                 android:textColor="@color/Gray"
                 android:layout_marginTop="7sp"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/comment_username"
-                android:textSize="13sp"/>
+                android:textSize="13sp"
+                android:layout_toEndOf="@+id/comment_username"
+                android:layout_marginStart="10dp" />
 
             <TextView
                 android:id="@+id/comment_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/comment_username"
-                android:text="Email"
+                android:text="@string/email"
                 android:textColor="#000"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="50sp"
                 android:layout_marginTop="2sp"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:layout_marginStart="50sp" />
 
 
             <TextView
@@ -67,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/comment_email"
-                android:text="Body"
+                android:text="@string/body"
                 android:textColor="#616161"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10sp"

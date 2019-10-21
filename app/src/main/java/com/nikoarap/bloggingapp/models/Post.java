@@ -2,7 +2,6 @@ package com.nikoarap.bloggingapp.models;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -63,10 +62,6 @@ public class Post implements Parcelable {
         this.authorId = authorId;
     }
 
-    @Ignore
-    public Post(){
-
-    }
 
     public String getDate ()
     {
@@ -83,17 +78,13 @@ public class Post implements Parcelable {
         return imageUrl;
     }
 
-    public void setImageUrl (String imageUrl)
-    {
-        this.imageUrl = imageUrl;
-    }
-
+    @NonNull
     public String getId ()
     {
         return id;
     }
 
-    public void setId (String id)
+    public void setId (@NonNull String id)
     {
         this.id = id;
     }
@@ -101,11 +92,6 @@ public class Post implements Parcelable {
     public String getTitle ()
     {
         return title;
-    }
-
-    public void setTitle (String title)
-    {
-        this.title = title;
     }
 
     public String getBody ()
@@ -121,11 +107,6 @@ public class Post implements Parcelable {
     public String getAuthorId ()
     {
         return authorId;
-    }
-
-    public void setAuthorId (String authorId)
-    {
-        this.authorId = authorId;
     }
 
 

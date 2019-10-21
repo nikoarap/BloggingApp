@@ -18,13 +18,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.nikoarap.bloggingapp.R;
 import com.nikoarap.bloggingapp.adapters.CommentsAdapter;
-import com.nikoarap.bloggingapp.adapters.PostsAdapter;
 import com.nikoarap.bloggingapp.models.Comment;
-import com.nikoarap.bloggingapp.models.Post;
 import com.nikoarap.bloggingapp.utils.JsonDateFormat;
-import com.nikoarap.bloggingapp.utils.VerticalSpacingDecorator;
 import com.nikoarap.bloggingapp.viewmodels.CommentListViewModel;
-import com.nikoarap.bloggingapp.viewmodels.PostListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,24 +34,11 @@ public class PostCommentsActivity extends AppCompatActivity implements CommentsA
     private CommentListViewModel commentListViewModel;
 
     private RecyclerView recView;
-    private PostsAdapter postsAdapter;
     public ImageButton backButton;
     private String postId;
-    private String postTitle;
-    private String postImageUrl;
-    private String postDate;
-    private String postBody;
-    private String authorName;
-    private String authorAvatarUrl;
-    private TextView post_dateTv;
-    private TextView post_titleTv;
-    private TextView post_bodyTv;
-    private TextView author_nameTv;
-    private ImageView post_image;
     public CircleImageView authorImg;
-    private CommentsAdapter commentsAdapter;
     private ArrayList<String> commentImages = new ArrayList<>();
-
+    private int post_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,23 +48,22 @@ public class PostCommentsActivity extends AppCompatActivity implements CommentsA
 
         setSupportActionBar((Toolbar)findViewById(R.id.widget_toolbar2));
 
-
         Intent i = getIntent();
         postId = i.getStringExtra("postId");
-        postTitle = i.getStringExtra("postTitle");
-        postImageUrl = i.getStringExtra("postImageUrl");
-        postDate = i.getStringExtra("postDate");
-        postBody = i.getStringExtra("postBody");
-        authorName = i.getStringExtra("authorName");
-        authorAvatarUrl = i.getStringExtra("authorAvatarUrl");
+        String postTitle = i.getStringExtra("postTitle");
+        String postImageUrl = i.getStringExtra("postImageUrl");
+        String postDate = i.getStringExtra("postDate");
+        String postBody = i.getStringExtra("postBody");
+        String authorName = i.getStringExtra("authorName");
+        String authorAvatarUrl = i.getStringExtra("authorAvatarUrl");
 
-        post_dateTv = (TextView) findViewById(R.id.post_date);
-        post_titleTv = (TextView) findViewById(R.id.post_title);
-        post_bodyTv = (TextView) findViewById(R.id.post_body);
-        author_nameTv = (TextView) findViewById(R.id.authorname);
-        post_image = (ImageView) findViewById(R.id.post_image);
-        backButton = (ImageButton) findViewById(R.id.backbutton2);
-        authorImg = (CircleImageView) findViewById(R.id.image);
+        TextView post_dateTv = findViewById(R.id.post_date);
+        TextView post_titleTv = findViewById(R.id.post_title);
+        TextView post_bodyTv = findViewById(R.id.post_body);
+        TextView author_nameTv = findViewById(R.id.authorname);
+        ImageView post_image = findViewById(R.id.post_image);
+        backButton = findViewById(R.id.backbutton2);
+        authorImg = findViewById(R.id.image);
 
         //formatting the date from ISO8601 to normal
         JsonDateFormat jsonDateFormat = new JsonDateFormat();
@@ -102,10 +84,12 @@ public class PostCommentsActivity extends AppCompatActivity implements CommentsA
                 .load(postImageUrl)
                 .into(post_image);
 
+        post_id = Integer.parseInt(postId);
+
         commentListViewModel = ViewModelProviders.of(this).get(CommentListViewModel.class);
 
         RetrofitRequest();
-        subscribeObservers();
+        observeFromDb();
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,9 +100,9 @@ public class PostCommentsActivity extends AppCompatActivity implements CommentsA
 
     }
 
-    //method to create an observer
-    private void subscribeObservers(){
-        commentListViewModel.getComments().observe(this, new Observer<List<Comment>>() {
+    //observing data from the DB
+    private void observeFromDb(){
+        commentListViewModel.getCommentsByPostFromDb(post_id).observe(this, new Observer<List<Comment>>() {
             @Override
             public void onChanged(@Nullable List<Comment> comments) {
                 if (comments != null){
@@ -131,19 +115,20 @@ public class PostCommentsActivity extends AppCompatActivity implements CommentsA
         });
     }
 
-    public void commentsAPI(String query, String sort, String and, String postID){
-        commentListViewModel.commentsApi(query, sort, and, postID);
+    //send request with parameters to retrofir
+    public void commentsByPostIdRequest(String query, String sort, String and, String postID){
+        commentListViewModel.commentsByPostIdRequest(query, sort, and, postID);
     }
 
     private void RetrofitRequest(){
-        commentsAPI("?","date","&",postId);
+        commentsByPostIdRequest("?","date","&",postId);
     }
 
     //method to set the recycler view and populate it
     private void populateRecyclerView(List<Comment> commentList) {
         RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recView.setLayoutManager(linearLayoutManager);
-        commentsAdapter = new CommentsAdapter(this, commentList, commentImages, this);
+        CommentsAdapter commentsAdapter = new CommentsAdapter(this, commentList, commentImages, this);
         recView.setAdapter(commentsAdapter);
         commentsAdapter.notifyDataSetChanged();
         recView.scheduleLayoutAnimation();

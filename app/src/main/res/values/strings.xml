@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">BloggingApp</string>
+    <string name="address_not_listed">Address not listed</string>
+    <string name="about_author">About the Author</string>
+    <string name="image">Img</string>
+    <string name="date">Date</string>
+    <string name="title">Title</string>
+    <string name="body">Body</string>
+    <string name="email">Email</string>
+    <string name="address">Address</string>
+    <string name="author_name">Author Name</string>
+    <string name="user_name">User Name</string>
+    <string name="authors_posts">s Posts</string>
 </resources>

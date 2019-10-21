@@ -3,12 +3,10 @@ package com.nikoarap.bloggingapp.viewmodels;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
-import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.nikoarap.bloggingapp.models.Post;
 import com.nikoarap.bloggingapp.repository.DataRepository;
+import com.nikoarap.bloggingapp.models.Post;
 
 import java.util.List;
 
@@ -18,15 +16,17 @@ public class PostListViewModel extends AndroidViewModel {
 
     public PostListViewModel(@NonNull Application application) {
         super(application);
-        dataRepository = new DataRepository(application);
+        dataRepository = DataRepository.getInstance(application);
     }
 
-    public LiveData<List<Post>> getPosts() {
-        return dataRepository.getPosts();
+    //caches from the server to the db and then to the corresponding activity
+    public LiveData<List<Post>> getPostsByAuthorFromDb(int authorId) {
+        return dataRepository.getPostsByAuthorFromDb(authorId);
     }
 
-    public void postsAPI(String query, String authorID){
-        dataRepository.postsAPI(query, authorID);
+    // sends request to the server and retrofit from the corresponding activity
+    public void postsByAuthorIdRequest(String query, String authorID){
+        dataRepository.postsByAuthorIdRequest(query, authorID);
     }
 
 }

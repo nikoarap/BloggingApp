@@ -9,12 +9,13 @@ import android.content.Context;
 import com.nikoarap.bloggingapp.models.Author;
 import com.nikoarap.bloggingapp.models.Comment;
 import com.nikoarap.bloggingapp.models.Post;
+import com.nikoarap.bloggingapp.utils.Converters;
 
 @Database(entities = {Author.class, Post.class, Comment.class}, version = 2) // schema updated in build.gradle(App)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
-    public static final String DATABASE_NAME = "App.db";
+    private static final String DATABASE_NAME = "App.db";
 
     private static AppDatabase instance;
 

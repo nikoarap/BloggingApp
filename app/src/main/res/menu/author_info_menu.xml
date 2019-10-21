@@ -6,6 +6,6 @@
         android:id="@+id/info"
         android:orderInCategory="100"
         app:showAsAction="never"
-        android:title="About the Author"/>
+        android:title="@string/about_author"/>
 
 </menu>

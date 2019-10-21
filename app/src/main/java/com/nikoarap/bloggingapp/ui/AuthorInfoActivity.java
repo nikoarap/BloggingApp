@@ -27,16 +27,6 @@ public class AuthorInfoActivity extends AppCompatActivity {
     public TextView address_txt;
     public CircleImageView authorImg;
     public ImageButton backButton;
-    private String authorId;
-    private String authorName;
-    private String authorAvatarUrl;
-    private String authorUserName;
-    private String authorEmail;
-    private String authorAddressLat;
-    private String authorAddressLng;
-    private Double latitude;
-    private Double longitude;
-    private String address, city, state, country, postalCode, knownName;
     List<Address> addresses;
 
 
@@ -48,27 +38,26 @@ public class AuthorInfoActivity extends AppCompatActivity {
         setContentView(R.layout.author_info_layout);
 
         Intent i = getIntent();
-        authorId = i.getStringExtra("authorId");
-        authorName = i.getStringExtra("authorName");
-        authorAvatarUrl = i.getStringExtra("authorAvatarUrl");
-        authorUserName = i.getStringExtra("authorUserName");
-        authorEmail = i.getStringExtra("authorEmail");
-        authorAddressLat = i.getStringExtra("authorAddressLat");
-        authorAddressLng = i.getStringExtra("authorAddressLng");
+        String authorName = i.getStringExtra("authorName");
+        String authorAvatarUrl = i.getStringExtra("authorAvatarUrl");
+        String authorUserName = i.getStringExtra("authorUserName");
+        String authorEmail = i.getStringExtra("authorEmail");
+        String authorAddressLat = i.getStringExtra("authorAddressLat");
+        String authorAddressLng = i.getStringExtra("authorAddressLng");
 
-        name_txt = (TextView) findViewById(R.id.nameInfoTxt);
-        userName_txt = (TextView) findViewById(R.id.usernameInfoTxt);
-        email_txt = (TextView) findViewById(R.id.emailInfoTxt);
-        address_txt = (TextView) findViewById(R.id.addressInfoTxt);
-        authorImg = (CircleImageView) findViewById(R.id.imageInfo);
-        backButton = (ImageButton) findViewById(R.id.backbuttonInfo);
+        name_txt = findViewById(R.id.nameInfoTxt);
+        userName_txt = findViewById(R.id.usernameInfoTxt);
+        email_txt = findViewById(R.id.emailInfoTxt);
+        address_txt = findViewById(R.id.addressInfoTxt);
+        authorImg = findViewById(R.id.imageInfo);
+        backButton = findViewById(R.id.backbuttonInfo);
 
         name_txt.setText(authorName);
         userName_txt.setText(authorUserName);
         email_txt.setText(authorEmail);
 
-        latitude = Double.parseDouble(authorAddressLat);
-        longitude = Double.parseDouble(authorAddressLng);
+        double latitude = Double.parseDouble(authorAddressLat);
+        double longitude = Double.parseDouble(authorAddressLng);
 
 
         //convert latLng to address
@@ -83,10 +72,10 @@ public class AuthorInfoActivity extends AppCompatActivity {
         }
 
         if(addresses.size() == 0){
-            address_txt.setText("Address not listed");
+            address_txt.setText(R.string.address_not_listed);
         }
         else{
-            address = addresses.get(0).getAddressLine(0);
+            String address = addresses.get(0).getAddressLine(0);
             address_txt.setText(address);
 
         }

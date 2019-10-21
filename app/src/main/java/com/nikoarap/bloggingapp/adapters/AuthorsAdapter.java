@@ -7,14 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.nikoarap.bloggingapp.R;
 import com.nikoarap.bloggingapp.models.Author;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -23,19 +21,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.AuthorsViewHolder> {
 
     private List<Author> authorsList;
-    public ArrayList<String> authorImages;
 
     private Context context;
     private OnAuthorListener onAuthorListener;
     private static final String TAG = "AuthorsAdapter";
 
-    public AuthorsAdapter(Context cont, List<Author> authorList, ArrayList<String> authorImages, OnAuthorListener authorListener) {
+    public AuthorsAdapter(Context cont, List<Author> authorList, OnAuthorListener authorListener) {
         context = cont;
         this.authorsList = authorList;
-        this.authorImages = authorImages;
         this.onAuthorListener = authorListener;
-
-
     }
 
     @NonNull
@@ -54,8 +48,6 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.AuthorsV
                 .asBitmap()
                 .load(authorsList.get(position).getAvatarUrl())
                 .into(viewHolder.authorImage);
-
-
     }
 
     @Override
@@ -69,15 +61,13 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.AuthorsV
 
         private TextView authorName;
         private CircleImageView authorImage;
-        private RelativeLayout rlayout;
         OnAuthorListener onAuthorListener;
 
 
-        public AuthorsViewHolder(View v, OnAuthorListener authorListener) {
+        private AuthorsViewHolder(View v, OnAuthorListener authorListener) {
             super(v);
             authorName = v.findViewById(R.id.author_name);
             authorImage = v.findViewById(R.id.author_image);
-            rlayout = v.findViewById(R.id.parent_layout);
             onAuthorListener = authorListener;
             v.setOnClickListener(this);
         }

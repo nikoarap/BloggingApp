@@ -6,9 +6,7 @@ import java.util.Date;
 
 public class JsonDateFormat {
 
-    private static String jsonDate;
     private static Date date;
-    private static String stringDate;
 
     public JsonDateFormat() {
 
@@ -26,8 +24,7 @@ public class JsonDateFormat {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        stringDate = removeFromTheEnd(date.toString(), 14);
-        return stringDate;
+        return removeFromTheEnd(date.toString(), 14);
     }
 
 }

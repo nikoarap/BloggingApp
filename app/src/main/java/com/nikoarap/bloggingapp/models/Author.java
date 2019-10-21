@@ -3,9 +3,8 @@ package com.nikoarap.bloggingapp.models;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.TypeConverter;
-import android.arch.persistence.room.TypeConverters;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -25,6 +24,7 @@ public class Author implements Parcelable{
 
     @NonNull
     @PrimaryKey
+    @OnConflictStrategy
     @ColumnInfo(name = "id")
     private String id;
 
@@ -76,20 +76,12 @@ public class Author implements Parcelable{
         return address;
     }
 
-    public void setAddress (Address address)
-    {
-        this.address = address;
-    }
 
     public String getAvatarUrl ()
     {
         return avatarUrl;
     }
 
-    public void setAvatarUrl (String avatarUrl)
-    {
-        this.avatarUrl = avatarUrl;
-    }
 
     public String getName ()
     {
@@ -101,12 +93,13 @@ public class Author implements Parcelable{
         this.name = name;
     }
 
+    @NonNull
     public String getId ()
     {
         return id;
     }
 
-    public void setId (String id)
+    public void setId (@NonNull String id)
     {
         this.id = id;
     }
@@ -116,20 +109,12 @@ public class Author implements Parcelable{
         return userName;
     }
 
-    public void setUserName (String userName)
-    {
-        this.userName = userName;
-    }
 
     public String getEmail ()
     {
         return email;
     }
 
-    public void setEmail (String email)
-    {
-        this.email = email;
-    }
 
 
     @Override

@@ -3,13 +3,10 @@ package com.nikoarap.bloggingapp.viewmodels;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
-import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.nikoarap.bloggingapp.models.Comment;
-import com.nikoarap.bloggingapp.models.Post;
 import com.nikoarap.bloggingapp.repository.DataRepository;
+import com.nikoarap.bloggingapp.models.Comment;
 
 import java.util.List;
 
@@ -19,15 +16,17 @@ public class CommentListViewModel extends AndroidViewModel {
 
     public CommentListViewModel(@NonNull Application application) {
         super(application);
-        dataRepository = new DataRepository(application);
+        dataRepository = DataRepository.getInstance(application);
     }
 
-    public LiveData<List<Comment>> getComments() {
-        return dataRepository.getComments();
+    //caches from the server to the db and then to the corresponding activity
+    public LiveData<List<Comment>> getCommentsByPostFromDb(int postId) {
+        return dataRepository.getCommentsByPostFromDb(postId);
     }
 
-    public void commentsApi(String query, String sort, String and, String postID){
-        dataRepository.commentsAPI(query, sort, and, postID);
+    // sends request to the server and retrofit from the corresponding activity
+    public void commentsByPostIdRequest(String query, String sort, String and, String postID){
+        dataRepository.commentsByPostIdRequest(query, sort, and, postID);
     }
 
 }

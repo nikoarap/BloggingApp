@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,7 +14,6 @@ import android.util.Log;
 import com.nikoarap.bloggingapp.R;
 import com.nikoarap.bloggingapp.adapters.AuthorsAdapter;
 import com.nikoarap.bloggingapp.models.Author;
-import com.nikoarap.bloggingapp.utils.VerticalSpacingDecorator;
 import com.nikoarap.bloggingapp.viewmodels.AuthorListViewModel;
 
 import java.util.ArrayList;
@@ -25,13 +22,9 @@ import java.util.List;
 public class AuthorListActivity extends AppCompatActivity implements AuthorsAdapter.OnAuthorListener {
 
     public static final String TAG = "AuthorListActivity";
-
     private AuthorListViewModel authorListViewModel;
-
     private RecyclerView recView;
-    private AuthorsAdapter recAdapter;
     public ArrayList<Author> authorList = new ArrayList<>();
-    private ArrayList<String> authorImages = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +34,12 @@ public class AuthorListActivity extends AppCompatActivity implements AuthorsAdap
 
         authorListViewModel = ViewModelProviders.of(this).get(AuthorListViewModel.class);
 
-        RetrofitRequest();
-        subscribeObservers();
-
+        observeFromDb();
     }
 
-    //method to create an observer
-    private void subscribeObservers(){
-        authorListViewModel.getAuthors().observe(this, new Observer<List<Author>>() {
+    //observing data from the DB
+    private void observeFromDb(){
+        authorListViewModel.getAuthorsFromDb().observe(this, new Observer<List<Author>>() {
             @Override
             public void onChanged(@Nullable List<Author> authors) {
                 if (authors != null){
@@ -62,19 +53,10 @@ public class AuthorListActivity extends AppCompatActivity implements AuthorsAdap
         });
     }
 
-    public void authorsAPI(){
-        authorListViewModel.authorsAPI();
-    }
-
-    private void RetrofitRequest(){
-        authorsAPI();
-    }
-
-
     private void populateRecyclerView(List<Author> authorList) {
         RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recView.setLayoutManager(linearLayoutManager);
-        recAdapter = new AuthorsAdapter(this, authorList, authorImages,this);
+        AuthorsAdapter recAdapter = new AuthorsAdapter(this, authorList, this);
         recView.setAdapter(recAdapter);
         recAdapter.notifyDataSetChanged();
         recView.scheduleLayoutAnimation();

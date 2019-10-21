@@ -1,4 +1,4 @@
-package com.nikoarap.bloggingapp.db;
+package com.nikoarap.bloggingapp.utils;
 
 import android.arch.persistence.room.TypeConverter;
 
@@ -21,7 +21,6 @@ public class Converters {
     @TypeConverter
     public static String fromArrayList(Address address){
         Gson gson  = new Gson();
-        String json = gson.toJson(address);
-        return json;
+        return gson.toJson(address);
     }
 }

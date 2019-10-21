@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -17,12 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.nikoarap.bloggingapp.R;
 import com.nikoarap.bloggingapp.adapters.PostsAdapter;
-import com.nikoarap.bloggingapp.models.Author;
 import com.nikoarap.bloggingapp.models.Post;
 import com.nikoarap.bloggingapp.utils.VerticalSpacingDecorator;
 import com.nikoarap.bloggingapp.viewmodels.PostListViewModel;
@@ -39,7 +36,6 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
     private PostListViewModel postListViewModel;
 
     public TextView authorTv;
-    private ActionBar AB;
     public CircleImageView authorImg;
     public ImageButton backButton;
     public ImageButton infoButton;
@@ -51,9 +47,9 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
     private String authorAddressLat;
     private String authorAddressLng;
     private RecyclerView recView;
-    private PostsAdapter postsAdapter;
     private ArrayList<String> postImages = new ArrayList<>();
     public ArrayList<Post> postsList = new ArrayList<>();
+    private int author_id;
 
 
     @Override
@@ -74,21 +70,24 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
         authorAddressLat = i.getStringExtra("authorAddressLat");
         authorAddressLng = i.getStringExtra("authorAddressLng");
 
-        authorTv = (TextView) findViewById(R.id.name);
-        authorImg = (CircleImageView) findViewById(R.id.image);
-        backButton = (ImageButton) findViewById(R.id.backbutton);
-        infoButton = (ImageButton) findViewById(R.id.infobutton);
+        authorTv = findViewById(R.id.name);
+        authorImg = findViewById(R.id.image);
+        backButton = findViewById(R.id.backbutton);
+        infoButton = findViewById(R.id.infobutton);
 
-        authorTv.setText(authorName+"'s Posts");
+        String author_textView = authorName +"'"+ getString(R.string.authors_posts);
+        authorTv.setText(author_textView);
         Glide.with(this)
                 .asBitmap()
                 .load(authorAvatarUrl)
                 .into(authorImg);
 
+        author_id = Integer.parseInt(authorId);
+
         postListViewModel = ViewModelProviders.of(this).get(PostListViewModel.class);
 
         RetrofitRequest();
-        subscribeObservers();
+        observeFromDb();
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,9 +105,9 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
 
     }
 
-    //method to create an observer
-    private void subscribeObservers(){
-        postListViewModel.getPosts().observe(this, new Observer<List<Post>>() {
+    //observing data from the DB
+    private void observeFromDb(){
+        postListViewModel.getPostsByAuthorFromDb(author_id).observe(this, new Observer<List<Post>>() {
             @Override
             public void onChanged(@Nullable List<Post> posts) {
                 if (posts != null){
@@ -122,19 +121,21 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
         });
     }
 
-    public void postsAPI(String query, String authorID){
-        postListViewModel.postsAPI(query, authorID);
+    //send request with parameters to retrofir
+    private void RetrofitRequest(){
+        postsByAuthorIdRequest("?",authorId);
     }
 
-    private void RetrofitRequest(){
-        postsAPI("?",authorId);
+    public void postsByAuthorIdRequest(String query, String authorID){
+        postListViewModel.postsByAuthorIdRequest(query, authorID);
     }
+
 
     //method to set the recycler view and populate it
     private void populateRecyclerView(List<Post> postList) {
         RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recView.setLayoutManager(linearLayoutManager);
-        postsAdapter = new PostsAdapter(this, postList, postImages, this);
+        PostsAdapter postsAdapter = new PostsAdapter(this, postList, postImages, this);
         VerticalSpacingDecorator itemDecorator = new VerticalSpacingDecorator(1);
         recView.addItemDecoration(itemDecorator);
         recView.setAdapter(postsAdapter);
@@ -152,18 +153,15 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 Intent i = new Intent(AuthorPostsActivity.this, AuthorInfoActivity.class);
-                switch (menuItem.getItemId()){
-                    case R.id.info:
-                        i.putExtra("authorId", authorId);
-                        i.putExtra("authorName", authorName);
-                        i.putExtra("authorAvatarUrl", authorAvatarUrl);
-                        i.putExtra("authorUserName", authorUserName);
-                        i.putExtra("authorEmail", authorEmail);
-                        i.putExtra("authorAddressLat", authorAddressLat);
-                        i.putExtra("authorAddressLng", authorAddressLng);
-                        break;
-                    default:
-                        return false;
+                if (menuItem.getItemId() == R.id.info) {
+                    i.putExtra("authorName", authorName);
+                    i.putExtra("authorAvatarUrl", authorAvatarUrl);
+                    i.putExtra("authorUserName", authorUserName);
+                    i.putExtra("authorEmail", authorEmail);
+                    i.putExtra("authorAddressLat", authorAddressLat);
+                    i.putExtra("authorAddressLng", authorAddressLng);
+                } else {
+                    return false;
                 }
                 startActivity(i);
 
