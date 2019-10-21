@@ -1,43 +1,32 @@
 package com.nikoarap.bloggingapp.adapters;
 
 import android.content.Context;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.nikoarap.bloggingapp.R;
 import com.nikoarap.bloggingapp.models.Comment;
-import com.nikoarap.bloggingapp.models.Comment;
 import com.nikoarap.bloggingapp.utils.JsonDateFormat;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder> {
 
     private List<Comment> commentsList;
-    public ArrayList<String> commentImages;
-
     private Context context;
     private CommentsAdapter.OnCommentListener onCommentListener;
     private static final String TAG = "CommentsAdapter";
 
-    public CommentsAdapter(Context cont, List<Comment> commentsList, ArrayList<String> commentImages, CommentsAdapter.OnCommentListener onCommentListener) {
+    public CommentsAdapter(Context cont, List<Comment> commentsList, CommentsAdapter.OnCommentListener onCommentListener) {
         context = cont;
         this.commentsList = commentsList;
-        this.commentImages = commentImages;
         this.onCommentListener = onCommentListener;
     }
 
@@ -72,23 +61,20 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     }
 
     public class CommentsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-
         private TextView commentDate;
         private TextView commentUserName;
         private TextView commentEmail;
         private TextView commentBody;
         private ImageView commentImage;
-        private RelativeLayout rlayout;
         CommentsAdapter.OnCommentListener onCommentListener;
 
-        public CommentsViewHolder(View v, CommentsAdapter.OnCommentListener commentListener) {
+        private CommentsViewHolder(View v, CommentsAdapter.OnCommentListener commentListener) {
             super(v);
             commentDate = v.findViewById(R.id.comment_date);
             commentUserName = v.findViewById(R.id.comment_username);
             commentEmail = v.findViewById(R.id.comment_email);
             commentBody = v.findViewById(R.id.comment_body);
             commentImage = v.findViewById(R.id.comment_image);
-            rlayout = v.findViewById(R.id.parent_layout_3);
             onCommentListener = commentListener;
             v.setOnClickListener(this);
         }

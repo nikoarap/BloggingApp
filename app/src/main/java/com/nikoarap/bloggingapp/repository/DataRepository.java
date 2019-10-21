@@ -146,6 +146,7 @@ public class DataRepository {
                     }
                 }
                 else{
+                    assert response.errorBody() != null;
                     String error = response.errorBody().string();
                     Log.e(TAG, "run: " + error);
 
@@ -183,6 +184,7 @@ public class DataRepository {
                     }
                 }
                 else{
+                    assert response.errorBody() != null;
                     String error = response.errorBody().string();
                     Log.e(TAG, "run: " + error);
                 }
@@ -223,6 +225,7 @@ public class DataRepository {
                     }
                 }
                 else{
+                    assert response.errorBody() != null;
                     String error = response.errorBody().string();
                     Log.e(TAG, "run: " + error);
                 }

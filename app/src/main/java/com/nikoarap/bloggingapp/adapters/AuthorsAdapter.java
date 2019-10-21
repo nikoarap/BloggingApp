@@ -21,7 +21,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.AuthorsViewHolder> {
 
     private List<Author> authorsList;
-
     private Context context;
     private OnAuthorListener onAuthorListener;
     private static final String TAG = "AuthorsAdapter";

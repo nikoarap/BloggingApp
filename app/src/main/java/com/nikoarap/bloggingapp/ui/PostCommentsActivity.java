@@ -22,7 +22,6 @@ import com.nikoarap.bloggingapp.models.Comment;
 import com.nikoarap.bloggingapp.utils.JsonDateFormat;
 import com.nikoarap.bloggingapp.viewmodels.CommentListViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -37,7 +36,6 @@ public class PostCommentsActivity extends AppCompatActivity implements CommentsA
     public ImageButton backButton;
     private String postId;
     public CircleImageView authorImg;
-    private ArrayList<String> commentImages = new ArrayList<>();
     private int post_id;
 
     @Override
@@ -128,7 +126,7 @@ public class PostCommentsActivity extends AppCompatActivity implements CommentsA
     private void populateRecyclerView(List<Comment> commentList) {
         RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recView.setLayoutManager(linearLayoutManager);
-        CommentsAdapter commentsAdapter = new CommentsAdapter(this, commentList, commentImages, this);
+        CommentsAdapter commentsAdapter = new CommentsAdapter(this, commentList, this);
         recView.setAdapter(commentsAdapter);
         commentsAdapter.notifyDataSetChanged();
         recView.scheduleLayoutAnimation();

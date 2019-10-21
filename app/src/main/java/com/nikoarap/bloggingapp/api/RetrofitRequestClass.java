@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitRequestClass {
 
     //url for json data
-    public static final String BASE_URL = "https://sym-json-server.herokuapp.com";
+    private static final String BASE_URL = "https://sym-json-server.herokuapp.com";
 
 
     //retrofit instantiation
