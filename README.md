@@ -26,21 +26,21 @@ The following libraries were used:
  In the application File struture you can find:
  ------
 
--The POJO models which are the Entity objects 
+- The POJO models which are the Entity objects 
 
--The SQLite Database (Room) with the corresponding DAO interface for the Database Inserts & Queries 
+- The SQLite Database (Room) with the corresponding DAO interface for the Database Inserts & Queries 
 
--The AsyncTask classes that were used for inserting data into the DB 
+- The AsyncTask classes that were used for inserting data into the DB 
 
--The Repository responsible for handling the requests to Retrofit and their corresponding responses, inserting the data to the DB and then caching them, generally managing the data flow 
+- The Repository responsible for handling the requests to Retrofit and their corresponding responses, inserting the data to the DB and  then caching them, generally managing the data flow 
 
--The Viewmodels which are performing as the 'glue' between the Server/DB and the UI 
+- The Viewmodels which are performing as the 'glue' between the Server/DB and the UI 
 
--The UI (View) in which the Activites of the application reside, with methods of observing the LiveData and performing changes to the UI accordingly 
+- The UI (View) in which the Activites of the application reside, with methods of observing the LiveData and performing changes to the UI accordingly 
 
 - The Utility classes: Converter of JsonDataFormat to normal, VerticalSpaceDecorator for spacing between ListItems in the RecyclerView, TypeConverter for converting the type of an Entity to be recognized by the room persistance  DB (the Address array object of the Model Authors in my case)
 
--The adapters for the RecyclerViews used by the Activities to display ListItems with data such as images 
+- The adapters for the RecyclerViews used by the Activities to display ListItems with data such as images 
 
 
 
