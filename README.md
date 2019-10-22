@@ -36,7 +36,7 @@ The following libraries were used:
 
 - The Repository responsible for handling the requests to Retrofit and their corresponding responses, inserting the data to the DB and  then caching them, generally managing the data flow 
 
-- The Viewmodels which are performing as the 'glue' between the Server/DB and the UI 
+- The Viewmodel which are performing as the bridge between the Server/DB and the UI 
 
 - The UI (View) in which the Activites of the application reside, with methods of observing the LiveData and performing changes to the UI accordingly 
 
