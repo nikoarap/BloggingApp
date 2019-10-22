@@ -14,7 +14,7 @@ import android.util.Log;
 import com.nikoarap.bloggingapp.R;
 import com.nikoarap.bloggingapp.adapters.AuthorsAdapter;
 import com.nikoarap.bloggingapp.models.Author;
-import com.nikoarap.bloggingapp.viewmodels.AuthorListViewModel;
+import com.nikoarap.bloggingapp.viewmodel.AppViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
 public class AuthorListActivity extends AppCompatActivity implements AuthorsAdapter.OnAuthorListener {
 
     public static final String TAG = "AuthorListActivity";
-    private AuthorListViewModel authorListViewModel;
+    private AppViewModel appViewModel;
     private RecyclerView recView;
     public ArrayList<Author> authorList = new ArrayList<>();
 
@@ -32,14 +32,14 @@ public class AuthorListActivity extends AppCompatActivity implements AuthorsAdap
         setContentView(R.layout.authors_list_layout);
         recView = findViewById(R.id.authorsRecyclerView);
 
-        authorListViewModel = ViewModelProviders.of(this).get(AuthorListViewModel.class);
+        appViewModel = ViewModelProviders.of(this).get(AppViewModel.class);
 
         observeFromDb();
     }
 
     //observing data from the DB
     private void observeFromDb(){
-        authorListViewModel.getAuthorsFromDb().observe(this, new Observer<List<Author>>() {
+        appViewModel.getAuthorsFromDb().observe(this, new Observer<List<Author>>() {
             @Override
             public void onChanged(@Nullable List<Author> authors) {
                 if (authors != null){
@@ -74,4 +74,5 @@ public class AuthorListActivity extends AppCompatActivity implements AuthorsAdap
         i.putExtra("authorAddressLng", authorList.get(position).getAddress().getLongitude());
         startActivity(i);
     }
+
 }

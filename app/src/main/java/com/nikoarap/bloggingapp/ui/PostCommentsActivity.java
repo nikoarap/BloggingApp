@@ -3,6 +3,7 @@ package com.nikoarap.bloggingapp.ui;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +21,7 @@ import com.nikoarap.bloggingapp.R;
 import com.nikoarap.bloggingapp.adapters.CommentsAdapter;
 import com.nikoarap.bloggingapp.models.Comment;
 import com.nikoarap.bloggingapp.utils.JsonDateFormat;
-import com.nikoarap.bloggingapp.viewmodels.CommentListViewModel;
+import com.nikoarap.bloggingapp.viewmodel.AppViewModel;
 
 import java.util.List;
 
@@ -30,11 +31,11 @@ public class PostCommentsActivity extends AppCompatActivity implements CommentsA
 
     public static final String TAG = "AuthorPostsActivity";
 
-    private CommentListViewModel commentListViewModel;
+    private static AppViewModel appViewModel;
 
     private RecyclerView recView;
     public ImageButton backButton;
-    private String postId;
+    private static String postId;
     public CircleImageView authorImg;
     private int post_id;
 
@@ -84,9 +85,9 @@ public class PostCommentsActivity extends AppCompatActivity implements CommentsA
 
         post_id = Integer.parseInt(postId);
 
-        commentListViewModel = ViewModelProviders.of(this).get(CommentListViewModel.class);
+        appViewModel = ViewModelProviders.of(this).get(AppViewModel.class);
 
-        RetrofitRequest();
+        RequestAsyncTask();
         observeFromDb();
 
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -95,12 +96,34 @@ public class PostCommentsActivity extends AppCompatActivity implements CommentsA
                 finish(); //going to the previous activity
             }
         });
+    }
 
+    private void RequestAsyncTask() {
+        new RequestAsyncTask();
+    }
+
+    public static class RequestAsyncTask extends AsyncTask<Void, Void, Void> {
+        private RequestAsyncTask() {
+        }
+        @Override
+        protected Void doInBackground(Void... voids) {
+            RetrofitRequest();
+            return null;
+        }
+    }
+
+    public static void RetrofitRequest(){
+        commentsByPostIdRequest("?","date","&",postId);
+    }
+
+    //send request to retrofit
+    public static void commentsByPostIdRequest(String query, String sort, String and, String postID){
+        appViewModel.commentsByPostIdRequest(query, sort, and, postID);
     }
 
     //observing data from the DB
     private void observeFromDb(){
-        commentListViewModel.getCommentsByPostFromDb(post_id).observe(this, new Observer<List<Comment>>() {
+        appViewModel.getCommentsByPostFromDb(post_id).observe(this, new Observer<List<Comment>>() {
             @Override
             public void onChanged(@Nullable List<Comment> comments) {
                 if (comments != null){
@@ -113,14 +136,6 @@ public class PostCommentsActivity extends AppCompatActivity implements CommentsA
         });
     }
 
-    //send request with parameters to retrofir
-    public void commentsByPostIdRequest(String query, String sort, String and, String postID){
-        commentListViewModel.commentsByPostIdRequest(query, sort, and, postID);
-    }
-
-    private void RetrofitRequest(){
-        commentsByPostIdRequest("?","date","&",postId);
-    }
 
     //method to set the recycler view and populate it
     private void populateRecyclerView(List<Comment> commentList) {

@@ -6,21 +6,20 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.nikoarap.bloggingapp.R;
-import com.nikoarap.bloggingapp.viewmodels.AuthorListViewModel;
+import com.nikoarap.bloggingapp.viewmodel.AppViewModel;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private AuthorListViewModel authorListViewModel;
+    private AppViewModel appViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_activity_layout);
 
-        authorListViewModel = ViewModelProviders.of(this).get(AuthorListViewModel.class);
+        appViewModel = ViewModelProviders.of(this).get(AppViewModel.class);
 
         //sending the request for the authors list to retrofit before the authors list activity
-        // to avoid bugs while caching through the database
         RetrofitRequest();
 
         //splash screen for 2 seconds
@@ -44,7 +43,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void authorsAPI(){
-        authorListViewModel.authorsAPI();
+        appViewModel.authorsAPI();
     }
 
     private void RetrofitRequest(){

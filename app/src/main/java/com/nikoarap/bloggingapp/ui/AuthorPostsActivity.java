@@ -3,6 +3,7 @@ package com.nikoarap.bloggingapp.ui;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +23,7 @@ import com.nikoarap.bloggingapp.R;
 import com.nikoarap.bloggingapp.adapters.PostsAdapter;
 import com.nikoarap.bloggingapp.models.Post;
 import com.nikoarap.bloggingapp.utils.VerticalSpacingDecorator;
-import com.nikoarap.bloggingapp.viewmodels.PostListViewModel;
+import com.nikoarap.bloggingapp.viewmodel.AppViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +34,13 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
 
     public static final String TAG = "AuthorPostsActivity";
 
-    private PostListViewModel postListViewModel;
+    private static AppViewModel appViewModel;
 
     public TextView authorTv;
     public CircleImageView authorImg;
     public ImageButton backButton;
     public ImageButton infoButton;
-    private String authorId;
+    private static String authorId;
     private String authorName;
     private String authorAvatarUrl;
     private String authorUserName;
@@ -84,9 +85,9 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
 
         author_id = Integer.parseInt(authorId);
 
-        postListViewModel = ViewModelProviders.of(this).get(PostListViewModel.class);
+        appViewModel = ViewModelProviders.of(this).get(AppViewModel.class);
 
-        RetrofitRequest();
+        RequestAsyncTask();
         observeFromDb();
 
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -105,9 +106,33 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
 
     }
 
+    private void RequestAsyncTask() {
+        new RequestAsyncTask();
+    }
+
+    public static class RequestAsyncTask extends AsyncTask<Void, Void, Void> {
+        private RequestAsyncTask() {
+        }
+        @Override
+        protected Void doInBackground(Void... voids) {
+            RetrofitRequest();
+            return null;
+        }
+    }
+
+    public static void RetrofitRequest(){
+        postsByAuthorIdRequest("?",authorId);
+
+    }
+
+    //send request to retrofit
+    public static void postsByAuthorIdRequest(String query, String authorID){
+        appViewModel.postsByAuthorIdRequest(query, authorID);
+    }
+
     //observing data from the DB
     private void observeFromDb(){
-        postListViewModel.getPostsByAuthorFromDb(author_id).observe(this, new Observer<List<Post>>() {
+        appViewModel.getPostsByAuthorFromDb(author_id).observe(this, new Observer<List<Post>>() {
             @Override
             public void onChanged(@Nullable List<Post> posts) {
                 if (posts != null){
@@ -120,16 +145,6 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
             }
         });
     }
-
-    //send request with parameters to retrofir
-    private void RetrofitRequest(){
-        postsByAuthorIdRequest("?",authorId);
-    }
-
-    public void postsByAuthorIdRequest(String query, String authorID){
-        postListViewModel.postsByAuthorIdRequest(query, authorID);
-    }
-
 
     //method to set the recycler view and populate it
     private void populateRecyclerView(List<Post> postList) {
@@ -181,6 +196,10 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
         i.putExtra("postBody", postsList.get(position).getBody());
         i.putExtra("authorName", authorName);
         i.putExtra("authorAvatarUrl", authorAvatarUrl);
+
         startActivity(i);
     }
+
+
+
 }
