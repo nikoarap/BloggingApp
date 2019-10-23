@@ -59,7 +59,7 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
         setContentView(R.layout.author_posts_layout);
         recView = findViewById(R.id.postsRecyclerView);
 
-        setSupportActionBar((Toolbar)findViewById(R.id.widget_toolbar));
+        setSupportActionBar((Toolbar) findViewById(R.id.widget_toolbar));
 
         //getting the intent from the previous activity and the variables passed
         Intent i = getIntent();
@@ -76,7 +76,7 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
         backButton = findViewById(R.id.backbutton);
         infoButton = findViewById(R.id.infobutton);
 
-        String author_textView = authorName +"'"+ getString(R.string.authors_posts);
+        String author_textView = authorName + "'" + getString(R.string.authors_posts);
         authorTv.setText(author_textView);
         Glide.with(this)
                 .asBitmap()
@@ -87,8 +87,7 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
 
         appViewModel = ViewModelProviders.of(this).get(AppViewModel.class);
 
-        RequestAsyncTask();
-        observeFromDb();
+        RetrofitRequest();
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,25 +102,19 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
                 infoMenuPopUp(v);
             }
         });
-
     }
 
-    private void RequestAsyncTask() {
-        new RequestAsyncTask();
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        observeFromDb(); // start observing after onCreate
     }
 
-    public static class RequestAsyncTask extends AsyncTask<Void, Void, Void> {
-        private RequestAsyncTask() {
-        }
-        @Override
-        protected Void doInBackground(Void... voids) {
-            RetrofitRequest();
-            return null;
-        }
-    }
 
-    public static void RetrofitRequest(){
-        postsByAuthorIdRequest("?",authorId);
+
+
+    public static void RetrofitRequest() {
+        postsByAuthorIdRequest("?", authorId);
 
     }
 
@@ -145,6 +138,8 @@ public class AuthorPostsActivity extends AppCompatActivity implements PostsAdapt
             }
         });
     }
+
+
 
     //method to set the recycler view and populate it
     private void populateRecyclerView(List<Post> postList) {

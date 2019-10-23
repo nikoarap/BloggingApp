@@ -87,8 +87,7 @@ public class PostCommentsActivity extends AppCompatActivity implements CommentsA
 
         appViewModel = ViewModelProviders.of(this).get(AppViewModel.class);
 
-        RequestAsyncTask();
-        observeFromDb();
+        RetrofitRequest();
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,18 +97,10 @@ public class PostCommentsActivity extends AppCompatActivity implements CommentsA
         });
     }
 
-    private void RequestAsyncTask() {
-        new RequestAsyncTask();
-    }
-
-    public static class RequestAsyncTask extends AsyncTask<Void, Void, Void> {
-        private RequestAsyncTask() {
-        }
-        @Override
-        protected Void doInBackground(Void... voids) {
-            RetrofitRequest();
-            return null;
-        }
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        observeFromDb(); // start observing after onCreate
     }
 
     public static void RetrofitRequest(){

@@ -14,8 +14,6 @@ import retrofit2.http.Query;
 
 public interface FetchJSONDataAPI {
 
-
-
     //get all authors
     @GET("/authors")
     Call<List<Author>> getAuthorsApi();

@@ -2,7 +2,6 @@ package com.nikoarap.bloggingapp.repository;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
 import com.nikoarap.bloggingapp.AsyncTasks.InsertCommentsAsyncTask;
@@ -31,9 +30,6 @@ public class DataRepository {
     private final static int NETWORK_TIMEOUT = 3000;
 
     private static DataRepository instance;
-    private static MutableLiveData<List<Author>> authorsList;
-    private static MutableLiveData<List<Post>> postsList;
-    private static MutableLiveData<List<Comment>> commentsList;
     private RetrievePostsRunnable retrievePostsRunnable;
     private RetrieveAuthorsRunnable retrieveAuthorsRunnable;
     private RetrieveCommentsRunnable retrieveCommentsRunnable;
@@ -50,9 +46,6 @@ public class DataRepository {
     private DataRepository(Application application){
         AppDatabase appDatabase = AppDatabase.getInstance(application);
         appDao = appDatabase.getAppDao();
-        authorsList = new MutableLiveData<>();
-        postsList = new MutableLiveData<>();
-        commentsList = new MutableLiveData<>();
     }
 
     //executes the insertion of the author data to the DB
@@ -146,7 +139,6 @@ public class DataRepository {
                 if (response.code() == 200 && response.body() != null){
                     List<Author> list = new ArrayList<>(((List<Author>)response.body()));
                     for(Author author: list){
-                        authorsList.postValue(list);
                         insertAuthorTask(author);  //inserts values to db
                     }
                 }
@@ -154,12 +146,10 @@ public class DataRepository {
                     assert response.errorBody() != null;
                     String error = response.errorBody().string();
                     Log.e(TAG, "run: " + error);
-                    authorsList.postValue(null);
 
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                authorsList.postValue(null);
 
             }
         }
@@ -188,7 +178,6 @@ public class DataRepository {
                 if (response.code() == 200 && response.body() != null){
                     List<Post> list = new ArrayList<>(((List<Post>)response.body()));
                     for(Post post: list){
-                        postsList.postValue(list);
                         InsertPostTask(post);  //inserts values to db
                     }
                 }
@@ -196,11 +185,9 @@ public class DataRepository {
                     assert response.errorBody() != null;
                     String error = response.errorBody().string();
                     Log.e(TAG, "run: " + error);
-                    postsList.postValue(null);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                postsList.postValue(null);
 
             }
         }
@@ -233,7 +220,6 @@ public class DataRepository {
                 if (response.code() == 200 && response.body() != null){
                     List<Comment> list = new ArrayList<>(((List<Comment>)response.body()));
                     for(Comment comment: list){
-                        commentsList.postValue(list);
                         InsertCommentTask(comment); //inserts values to db
                     }
                 }
@@ -241,11 +227,9 @@ public class DataRepository {
                     assert response.errorBody() != null;
                     String error = response.errorBody().string();
                     Log.e(TAG, "run: " + error);
-                    commentsList.postValue(null);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                commentsList.postValue(null);
             }
         }
 
